@@ -15,11 +15,13 @@ public class PhoneService {
     private final PhoneRepository phoneRepository;
     private final ContactRepository contactRepository;
     private final PhoneNumberValidator phoneNumberValidator;
+    private final NotificationService notificationService;
 
-    public PhoneService(PhoneRepository phoneRepository, ContactRepository contactRepository, PhoneNumberValidator phoneNumberValidator) {
+    public PhoneService(PhoneRepository phoneRepository, ContactRepository contactRepository, PhoneNumberValidator phoneNumberValidator, NotificationService notificationService) {
         this.phoneRepository = phoneRepository;
         this.contactRepository = contactRepository;
         this.phoneNumberValidator = phoneNumberValidator;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -35,6 +37,8 @@ public class PhoneService {
         phones.setPhoneNumber(request.getPhoneNumber());
         phones.setType(request.getType());
         phones.setContacts(contacts);
+
+        notificationService.sendNumberAddedAlert(phones);
 
         return phoneRepository.save(phones) ;
     }
