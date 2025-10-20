@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface ContactRepository extends JpaRepository<Contacts, Integer> {
     Optional<Contacts> findByFirstName(String firstName);
+
+    Optional<Contacts> findById(Integer id);
 }
